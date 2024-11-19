@@ -1,20 +1,20 @@
-# Step 2: Configuring Node
+# Paso 2: Configurar el nodo
 
-## :hammer\_pick: Node Configuration
+## :hammer\_pick: Configurar el nodo
 
-### Logging to the node
-
-**Using Ubuntu Server**: Begin by connecting with your SSH client.
+### Accediendo al nodo
+**Usando un servidor Ubuntu**: 
+Comience conectándose con su cliente SSH.
 
 ```bash
-ssh username@staking.node.ip.address
+ssh nombredeusuario@staking.node.ip.address
 ```
 
-**Using Ubuntu Desktop**: You're likely in-front of your **local** node. Simply open a terminal window from anywhere by typing Ctrl+Alt+T.
+**Usando el escritorio de UBUNTU**: Tienes enfrente a tu nodo **local**. Solo abre una ventana terminal desde cualquier lado pulsando Ctrl+Alt+T.
 
-### Updating the node
+### Actualizando el nodo
 
-Ensure all the latest packages, tools and patches are installed first, then reboot.
+Asegurate de que todo los paquetes, parches y herramientas esté, descargados, despues reinicia el equipo.
 
 ```bash
 sudo apt-get update -y && sudo apt dist-upgrade -y
@@ -24,102 +24,102 @@ sudo apt-get autoclean
 sudo reboot
 ```
 
-## :key: Security Configuration
+## :key: Configuración de seguridad
 
-### Create a non-root user with sudo privileges
+### Cree un usuario no root con privilegios sudo
 
-<details>
+<Detalles>
 
-<summary>Creating a user called ethereum</summary>
+<summary>Crea un usuario llamado "Ethereum"</summary>
 
-Create a new user called `ethereum`
+Crea un nuevo usuario llamado `ethereum`
 
 ```bash
 sudo useradd -m -s /bin/bash ethereum
 ```
 
-Set the password for ethereum user
+Establece una contraseña para el usuario
 
 ```bash
 sudo passwd ethereum
 ```
 
-Add ethereum to the sudo group
+Añade al usuario al grupo sudo
 
 ```bash
 sudo usermod -aG sudo ethereum
 ```
 
-Log out and log back in as this new user.
+Cierra e inicia sesión con este usuario.
 
-**Using Ubuntu Server**: Use the following commands.
+**Usando el servidor de Ubuntu**: Usa los siguientes comandos.
 
 ```bash
 exit
 ssh ethereum@staking.node.ip.address
 ```
 
-**Using Ubuntu Desktop**: Log out can be found in the top right corner under the Power Icon. Click the `ethereum` user account and enter password.
+**Usando el escritorio de Ubuntu**: Puede encontrar el cierre de sesión en la esquina superior derecha debajo del ícono de encendido. Clickea la cuenta de  `ethereum` e ingresa la contraseña.
 
-</details>
+</Detalles>
 
-{% hint style="warning" %}
-:fire:**Important reminder**: Ensure you are logged in and execute all steps in this guide as this non-root user, `ethereum`.
-{% endhint %}
+{% Tipo de pista="Advertencia" %}
+:fire:**Avido importante**: Asegúrate de haber iniciado sesión y ejecuta todos los pasos de esta guía como el usuario sin root, `ethereum`.
+{% Fin de la pista %}
 
-### Hardening SSH Access
+### Fortalecimiento del acceso SSH
 
-{% hint style="info" %}
-**Local node**? You can skip this section on Hardening SSH Access.
-{% endhint %}
+{% Tipo de pista="información" %}
+**Nodo local**? Puedes saltarte esta sesion de "fortalecimiento del acceso SSH".
+{% Fin de la pista%}
 
-<details>
+<detalles>
 
-<summary>Creating a new SSH Key</summary>
+<summary>Creando una nueva llave SSH</summary>
 
-Create a new SSH key pair on **your client machine (i.e. local laptop)**. Run this on **your client machine,** not remote node. Update the comment with your email or a comment.
+Crea un nuevo par de llaves SSH en **tu máquina(i.e. laptop)**. Corre esto en tu **máquina,** nunca de un nodo remoto. Actualiza el comentario con tu correo electrónico o un comentario.
 
 ```
 ssh-keygen -t ed25519 -C "name@email.com"
 ```
 
-You'll see this next:
+Verás esto a continuación:
 
 ```
 Generating public/private ed25519 key pair.
 Enter file in which to save the key (/home/<myUserName>/.ssh/id_ed25519):
 ```
 
-Here you're asked to type a file name in which to save the SSH private key. If you press enter, you can use the default file name `id_ed25519`
+Aquí se le pedirá que escriba un nombre de archivo en el que guardar la clave privada SSH. Si presiona Enter, puede usar el nombre de archivo predeterminado `id_ed25519`
 
-Next, you're prompted to enter a passphrase.
+Luego, seras incitado a poner una contraseña.
 
 ```
-Enter passphrase (empty for no passphrase):
+Ingrese contraseña (Deje vacio si no desea poner contraseña):
 ```
 
-:information\_source: A **passphrase** adds an extra layer of protection to your SSH private key. Everytime you connect via SSH to your remote node, enter this passphrase to unlock your SSH private key.
+:information\_source: Una **contraseña** añade una capa extra de protección para tu llave SSH. Cada vez que te conectes a tu nodo po SSH, Ingresa esta contraseña para desbloquear tu llave SSH.
 
 :fire: Passphrase is highly recommended! Do not leave this empty for no passphrase.
 
-:bulb:Do not forget or lose your passphrase. Save this to a password manager.
+:bulb:No olvides ni pierdas tu contraseña. Guarda esto en un administrador de contraseñas.
 
-**Location**: Your SSH key pair is stored in your home directory under `~/.ssh`
+**Localización**: Tu par de llaves SSH está guardado en tu directorio local bajo: `~/.ssh`
 
-**File name:** If your default keyname is`id_ed25519`, then
+**Nombre del archivo:** Si tu llave predeterminada es `id_ed25519`, entonces
 
-* your **private SSH key** is `id_ed25519`
-* your **public SSH key** is `id_ed25519.pub`
+* Tu **Llave privada SSH** es `id_ed25519`
+* Tu **Llave pública SSH** es `id_ed25519.pub`
 
-:fire: **IMPORTANT:** Make multiple backup copies of your **private SSH key file** to external storage, such as a USB backup key, for recovery purposes. Also backup your **passphrase**!
+:fire: **Importante:** Haz muchos respaldos de tu **Llave privada SSH** en almacenamiento externo, como una USB, para propositos de recuperación. También respalda tu **contraseña**!
 
-Verify the contents of your private SSH key file before moving on.
+Verifica el contenido de tu llave privada SSH antes de moverla.
 
 ```
 cat ~/.ssh/id_ed25519
 ```
 
-It should look similar to this example.
+Debería verse mas o menos como en el ejemplo.
 
 ```
 -----BEGIN OPENSSH PRIVATE KEY-----
@@ -131,70 +131,70 @@ XioWFuqJIfdMG9lcGJg2AAAACWV0aDJAZXRoMgECAwQ=
 -----END OPENSSH PRIVATE KEY-----
 ```
 
-</details>
+</Detalles>
 
-#### Transferring the SSH Public Key to Remote node
+#### Transfiriendo la llave pública SSH a un nodo remoto
 
-<details>
+<Detalles>
 
-<summary>Option 1: Transferring with ssh-copy-id</summary>
+<summary>Opción 1: Transfiriendola con una copia de ID</summary>
 
-Works with Linux or MacOS. Use option 2 for Windows.
+Funciona para Linux o MacOS. Usa la opción 2 para windows.
 
 ```bash
 ssh-copy-id -i ~/.ssh/id_ed25519 ethereum@staking.node.ip.address
 ```
 
-</details>
+</detalles>
 
-<details>
+<detalles>
 
-<summary>Option 2: Copying the key manually</summary>
+<summary>Opción 2: Copiando la llave manualmente</summary>
 
-First, begin by obtaining your SSH Public key.
+Primero, comience obteniendo su clave pública SSH.
 
-For Linux/Mac,
+Para Linux/Mac,
 
 ```
 cat ~/.ssh/id_ed25519.pub
 ```
 
-For Windows,
+Para Windows,
 
-Open a command prompt (Windows Key + R, then `cmd`, finally press enter).
+Abre una ventana de comando (Windows Key + R, después `cmd`, para finalizar pulsa enter).
 
 ```
 type %USERPROFILE%\.ssh\id_ed25519.pub
 ```
 
-The output will look similar to the following:
+La salida debería verse algo así como:
 
 ```
 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAoc78lv+XDh2znunKXUF/9zBNJrM4Nh67yut9RN14SX name@email.com
 ```
 
-Copy into your clipboard this output, also known as your public SSH key.
+Copia esto al portapapeles, conocida tambien como tu llave pública SSH.
 
-On your **remote node**, run the following:
+En tu **nodo remoto**, corre lo siguiente:
 
 ```
 mkdir -p ~/.ssh
 nano ~/.ssh/authorized_keys
 ```
 
-First, a directory called **.ssh** is created, then `Nano` is a text editor for editing a special file called **authorized\_keys**
+Primero, se crea un directorio llamado **.ssh**, después `Nano`es un editor de texto creado para una linea especial llamada **authorized\_keys**
 
-With nano opening the authorized\_keys file, right-click your mouse to paste your public SSH key into this file.
+Con nano abre authorized\_keys file, click derecho del mouse para pagar tu llave pública SSH en esta dirección.
 
-To exit and save, press `Ctrl` + `X`, then `Y`, then`Enter`.
+Para salir y guardar, presiona `Ctrl` + `X`, despues `Y`, y al final`Enter`.
 
-Verify your public SSH key was properly pasted into the file.
+Verifica que tu llave pública SSH haya sido pegada correctamente.
 
 ```
 cat ~/.ssh/authorized_keys
 ```
 
-</details>
+</detalles>
 
 #### Disabling Password Authentication
 
